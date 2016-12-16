@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+	  xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!--<item android:title="@string/menuCreateVector"-->
+		  <!--android:id="@+id/menuCreateVectorBtn"-->
+		<!--/>-->
+	<item android:title="@string/menuUpdate"
+		  android:id="@+id/menuUpdateBtn"
+		  android:icon="@drawable/ic_sync_black_24dp"
+		/>
+	<item android:title="@string/menuAbout"
+		  android:id="@+id/menuAboutBtn"
+
+		/>
+</menu>

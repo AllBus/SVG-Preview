@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
+		android:orientation="vertical"
+		>
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:orientation="horizontal"
+			android:id="@+id/imagesLayout"
+			>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="8dp"
+				android:gravity="end"
+				android:orientation="vertical"
+				>
+
+				<com.kos.svgpreview.parser.XmlView
+					android:id="@+id/smallImage"
+					android:layout_width="24dp"
+
+					android:layout_height="24dp"
+					android:layout_margin="8dp"
+					/>
+
+				<com.kos.svgpreview.parser.XmlView
+					android:id="@+id/appImage"
+					android:layout_width="72dp"
+					android:layout_height="72dp"
+					android:layout_margin="8dp"/>
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:id="@+id/commandLayout"
+					>
+
+					<com.kos.community.views.ForegroundImageView
+						android:id="@+id/previewInBrowserBtn"
+						android:layout_width="48dp"
+						android:layout_height="48dp"
+						android:src="@drawable/ic_fullscreen_black_24dp"
+
+						style="@style/ImageButton"/>
+
+					<com.kos.community.views.ForegroundImageView
+						android:id="@+id/createVectorBtn"
+						android:layout_width="48dp"
+						android:layout_height="48dp"
+						android:src="@drawable/ic_create_vector"
+
+						style="@style/ImageButton"/>
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<com.kos.svgpreview.parser.XmlView
+				android:id="@+id/image"
+				android:layout_width="200dp"
+
+				android:layout_height="200dp"/>
+
+
+		</LinearLayout>
+
+		<com.kos.svgpreview.parser.XmlView
+			android:id="@+id/realImage"
+			android:layout_width="wrap_content"
+
+			android:layout_height="wrap_content"/>
+
+
+		<TextView
+			android:id="@+id/textXml"
+			android:fontFamily="monospace"
+			android:layout_width="match_parent"
+
+			android:layout_height="wrap_content"
+
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:layout_marginTop="12dp"
+			android:layout_marginBottom="12dp"
+			/>
+	</LinearLayout>
+</ScrollView>

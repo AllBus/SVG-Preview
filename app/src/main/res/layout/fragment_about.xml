@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:paddingLeft="20dp"
+			android:paddingRight="20dp">
+
+
+	<LinearLayout
+		android:layout_width="300dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:gravity="center_horizontal"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingTop="16dp"
+			android:paddingBottom="16dp"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:layout_width="72dp"
+				android:layout_height="72dp"
+
+				android:scaleType="fitXY"
+				android:layout_margin="8dp"
+				android:src="@mipmap/ic_launcher"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:orientation="vertical"
+				android:paddingLeft="12dp"
+				android:paddingRight="12dp">
+
+
+				<TextView
+					style="@style/AboutFragmentTextView"
+					android:layout_marginTop="15dp"
+					android:text="@string/app_name"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					android:id="@+id/textView"/>
+
+				<TextView
+					android:id="@+id/tvVersion"
+					style="@style/AboutFragmentTextView"
+					android:layout_marginTop="5dp"
+					android:textColor="?android:attr/textColorPrimary"
+					android:textSize="18sp"/>
+			</LinearLayout>
+		</LinearLayout>
+
+
+		<TextView
+			style="@style/AboutFragmentTextView"
+			android:layout_marginTop="20dp"
+			android:text="@string/ap_author"
+			android:textSize="18sp"/>
+
+		<TextView
+			android:paddingTop="16dp"
+			android:paddingBottom="16dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:gravity="center"
+			android:text="@string/ap_description"
+			android:textColor="?android:attr/textColorPrimary"
+			android:textSize="16sp"
+			android:id="@+id/textView2"/>
+
+		<Button
+			android:id="@+id/btnWriteLater"
+			android:layout_width="240dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:background="@drawable/round"
+			android:textAllCaps="false"
+			android:text="@string/ap_feed_back"
+			android:textColor="?android:attr/textColorPrimaryInverse"
+			/>
+
+		<Button
+			android:id="@+id/btnMarkApp"
+			android:layout_width="240dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:layout_marginTop="7dp"
+			android:background="@drawable/round"
+			android:textAllCaps="false"
+			android:textColor="?android:attr/textColorPrimaryInverse"
+			android:text="@string/ap_rate"
+			/>
+	</LinearLayout>
+</ScrollView>

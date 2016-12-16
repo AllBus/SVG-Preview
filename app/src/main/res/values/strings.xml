@@ -1,0 +1,33 @@
+<resources>
+	<string name="app_name">SvgPreview</string>
+	<string name="blockFolder">No files</string>
+	<string name="unknownFile">Unsupported file format</string>
+	<string name="previewInBrowser">Preview</string>
+	<string name="homeFolder">My files</string>
+	<string name="commandSvgAllPreview">All SVG</string>
+	<string name="menuCreateVector">Convert</string>
+	<string name="createAllSvg">Convert all SVG to Vector drawable</string>
+	<string name="menuUpdate">Synchronize</string>
+	<string name="snackCompleteCreateVector">Converting is complete. The result in the drawable folder</string>
+	<string name="snackComplete2CreateVector">Converting is complete. The result in the documents/drawable folder</string>
+	<string name="snackCompleteFailCreateVector">An error occurred during converting</string>
+	<string name="filePhonePath">Device storage</string>
+	<string name="fileSDPath">SD card</string>
+	<string name="fileDocumentsPath">Documents</string>
+	<string name="fileDownloadsPath">Downloads</string>
+	<string name="menuAbout">About</string>
+	<string name="titleAbout">About</string>
+
+	<!-- Страница О программе -->
+	<string name="ap_version">Version %1$s</string>
+	<string name="ap_author">Developer: Konstantin Musikhin</string>
+	<string name="ap_description">The program is designed for preview SVG, and to perform converting SVG to VectorDrawable</string>
+	<string name="ap_feed_back">Write to us\nallcodesmail@gmail.com</string>
+	<string name="ap_rate">Rate app</string>
+
+	<!-- Отправка письма -->
+	<string name="sm_email">allcodesmail@gmail.com</string>
+	<string name="sm_email_subject">%1$s %2$s - %3$s</string>
+	<string name="sm_email_text">Please write your questions and comments here:\n\n\n\n\nAndroid %1$s\n%2$s</string>
+	<string name="app_platform">Android</string>
+</resources>

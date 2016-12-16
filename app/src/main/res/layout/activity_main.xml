@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context="com.kos.svgpreview.MainActivity"
+	>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<include layout="@layout/tabs_layout"
+				 />
+
+		<com.kos.community.views.ForegroundImageView
+			android:id="@+id/moreBtn"
+			android:layout_width="@dimen/tabButtonWidth"
+			android:layout_height="@dimen/tabBLayoutHeight"
+			android:src="@drawable/ic_more_vert_primary_24dp"
+			android:layout_alignParentEnd="true"
+			style="@style/ImageButton"/>
+	</RelativeLayout>
+	<include layout="@layout/layout_list"/>
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+
+		<item name="android:colorPrimary">@color/colorPrimary</item>
+		<item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="android:colorAccent">@color/colorAccent</item>
+		<!--<item name="actionMenuTextColor">@android:color/white</item>-->
+		<!--<item name="android:actionMenuTextColor">@android:color/white</item>-->
+		<!--<item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>-->
+		<item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+		<item name="android:windowActionBar">false</item>
+
+	</style>
+
+	<style name="simpleVector">
+		<item name="android:width">100dp</item>
+		<item name="android:height">80dp</item>
+	</style>
+
+	<style name="PreviewTabTextAppearance" parent="TextAppearance.Design.Tab">
+		<item name="textAllCaps">false</item>
+		<item name="android:textAllCaps">false</item>
+	</style>
+
+	<style name="ThemeMaterial" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+	</style>
+
+	<style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">?android:attr/actionBarSize</item>
+		<item name="android:background">?android:attr/colorPrimary</item>
+		<item name="android:colorControlNormal">@android:color/white</item>
+	</style>
+
+	<style name="ImageButton">
+		<item name="android:clickable">true</item>
+		<item name="android:foreground">?attr/selectableItemBackground</item>
+		<item name="android:scaleType">center</item>
+		<item name="android:tint">@color/colorPrimary</item>
+	</style>
+
+	<style name="AboutFragmentTextView"
+		   parent="@android:style/Widget.TextView">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textColor">@android:color/black</item>
+	</style>
+</resources>
