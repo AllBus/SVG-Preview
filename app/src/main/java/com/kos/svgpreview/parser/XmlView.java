@@ -232,6 +232,7 @@ public class XmlView extends View {
 			mVectorState.updateCacheStates();
 		}
 		mVectorState.drawCachedBitmapWithRootAlpha(canvas, colorFilter, drawRect);
+
 	}
 
 	public void fromVectorState(VectorDrawableCompatState vectorState) {
@@ -1117,7 +1118,17 @@ public class XmlView extends View {
 		boolean mCachedAutoMirrored;
 		boolean mCacheDirty;
 
+		public float getViewPortWidth(){
+			if (mVPathRenderer!=null)
+				return mVPathRenderer.mViewportWidth;
+			return 1;
+		}
 
+		public float getViewPortHeight(){
+			if (mVPathRenderer!=null)
+				return mVPathRenderer.mViewportHeight;
+			return 1;
+		}
 		/**
 		 * Temporary paint object used to draw cached bitmaps.
 		 */

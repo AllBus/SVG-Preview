@@ -30,4 +30,6 @@
 	<string name="app_platform">Android</string>
 	<string name="fileDocumentsPath">Мои документы</string>
 	<string name="fileDownloadsPath">Загрузки</string>
+
+	<string name="privatePolicy">Политика конфиденциальности</string>
 </resources>

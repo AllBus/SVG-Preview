@@ -20,14 +20,14 @@ class AboutActivity extends TActivity with View.OnClickListener {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_about)
 		try {
-			(findViewById(R.id.tvVersion).asInstanceOf[TextView]).setText(getString(R.string.ap_version, getPackageManager.getPackageInfo(this.getPackageName, 0).versionName))
+			findViewById(R.id.tvVersion).asInstanceOf[TextView].setText(getString(R.string.ap_version, getPackageManager.getPackageInfo(this.getPackageName, 0).versionName))
 		}
 		catch {
-			case e: PackageManager.NameNotFoundException ⇒ {
-			}
+			case e: PackageManager.NameNotFoundException ⇒
 		}
 		findViewById(R.id.btnWriteLater).setOnClickListener(this)
 		findViewById(R.id.btnMarkApp).setOnClickListener(this)
+		findViewById(R.id.btnPrivatePolicy).setOnClickListener(this)
 
 		setupTabs(tabs)
 		tabs.addTab(tabs.newTab().setText(R.string.titleAbout))
@@ -56,6 +56,8 @@ class AboutActivity extends TActivity with View.OnClickListener {
 			case R.id.btnMarkApp ⇒
 				IntentHelper.openPlayMarket(this, IntentHelper.GOOGLE_MARKET_ID_PARAMETER + getPackageName)
 
+			case R.id.btnPrivatePolicy ⇒
+				IntentHelper.showBrowser(this,getString(R.string.privatePolicyUri))
 			case _ ⇒ super.onClick(v)
 		}
 	}

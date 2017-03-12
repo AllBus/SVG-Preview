@@ -2,6 +2,7 @@ package com.kos.common.helpers;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -24,6 +25,23 @@ public class IntentHelper {
             // В случае отсутствия PlayMarket, открыть в браузере
             googleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_MARKET_HTTPS + Query));
             activity.startActivity(googleIntent);
+        }
+    }
+
+    public static void shareText(Context context, String subject, String text, String chooserTitle) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain")
+                .putExtra(Intent.EXTRA_SUBJECT, subject)
+                .putExtra(Intent.EXTRA_TEXT, text);
+        context.startActivity(Intent.createChooser(share, chooserTitle));
+    }
+
+    public static void showBrowser(Activity activity, String uri) {
+        try {
+            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            activity.startActivity(intent);
+        }catch (Exception ignored){
+
         }
     }
 }

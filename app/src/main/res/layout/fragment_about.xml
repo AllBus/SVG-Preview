@@ -96,5 +96,16 @@
 			android:textColor="?android:attr/textColorPrimaryInverse"
 			android:text="@string/ap_rate"
 			/>
+		<Button
+			android:id="@+id/btnPrivatePolicy"
+			android:layout_width="240dp"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:layout_marginTop="7dp"
+			android:background="@drawable/round"
+			android:textAllCaps="false"
+			android:textColor="?android:attr/textColorPrimaryInverse"
+			android:text="@string/privatePolicy"
+			/>
 	</LinearLayout>
 </ScrollView>

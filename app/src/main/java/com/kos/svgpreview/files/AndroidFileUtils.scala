@@ -107,7 +107,7 @@ object AndroidFileUtils {
 			val b = new CommandData(AndroidFileUtils.getSDPath,0, context.getString(R.string.fileSDPath))
 			val com=Seq[BasicData](
 				new CommandData(AndroidFileUtils.myDocumentsPath,0, context.getString(R.string.fileDocumentsPath)),
-			new CommandData(AndroidFileUtils.getDownloadsPath,0, context.getString(R.string.fileDownloadsPath))
+				new CommandData(AndroidFileUtils.getDownloadsPath,0, context.getString(R.string.fileDownloadsPath))
 			) //new CommandData(new File("create"), 1,"Create Xml"),new CommandData(new File("svg"), 1,"Create SVG"))
 			if (a.getPath == b.getPath) {
 				a +: com

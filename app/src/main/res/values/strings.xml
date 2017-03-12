@@ -30,4 +30,8 @@
 	<string name="sm_email_subject">%1$s %2$s - %3$s</string>
 	<string name="sm_email_text">Please write your questions and comments here:\n\n\n\n\nAndroid %1$s\n%2$s</string>
 	<string name="app_platform">Android</string>
+
+	<string name="privatePolicy">Privacy Policy</string>
+	<string name="privatePolicyUri" translatable="false">"https://allbus.github.io/ProjectTerms/privacy/svgPreview.html"</string>
+
 </resources>
