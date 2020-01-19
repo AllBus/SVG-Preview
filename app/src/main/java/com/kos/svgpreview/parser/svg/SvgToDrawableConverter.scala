@@ -532,7 +532,7 @@ object SvgToDrawableConverter {
 			}
 
 		} catch {
-			case _: Throwable ⇒
+			case e: Throwable ⇒
 				0
 		}
 

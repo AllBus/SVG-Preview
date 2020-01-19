@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package android.support.design.widget;
+package com.google.android.material;
 
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -27,21 +28,22 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.util.Pools;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.core.util.Pools;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.TextViewCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -60,6 +62,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.material.animation.AnimationUtils;
+import com.google.android.material.tabs.TabItem;
 import com.kos.svgpreview.R;
 
 import java.lang.annotation.Retention;
@@ -68,9 +72,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_SETTLING;
 
 /**
  * TabLayout provides a horizontal layout to display tabs.
@@ -108,7 +112,7 @@ import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
  *
  * <h3>ViewPager integration</h3>
  * <p>
- * If you're using a {@link android.support.v4.view.ViewPager} together
+ * If you're using a {@link androidx.core.view.ViewPager} together
  * with this layout, you can call {@link #setupWithViewPager(ViewPager)} to link the two together.
  * This layout will be automatically populated from the {@link PagerAdapter}'s page titles.</p>
  *
@@ -284,7 +288,7 @@ public class TabLayoutWithListener extends HorizontalScrollView {
     private final ArrayList<OnTabSelectedListener> mSelectedListeners = new ArrayList<>();
     private OnTabSelectedListener mCurrentVpSelectedListener;
 
-    private ValueAnimatorCompat mScrollAnimator;
+    private ValueAnimator mScrollAnimator;
 
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -340,12 +344,12 @@ public class TabLayoutWithListener extends HorizontalScrollView {
 
         // Text colors/sizes come from the text appearance first
         final TypedArray ta = context.obtainStyledAttributes(mTabTextAppearance,
-                android.support.v7.appcompat.R.styleable.TextAppearance);
+                androidx.appcompat.R.styleable.TextAppearance);
         try {
             mTabTextSize = ta.getDimensionPixelSize(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textSize, 0);
+                    androidx.appcompat.R.styleable.TextAppearance_android_textSize, 0);
             mTabTextColors = ta.getColorStateList(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textColor);
+                    androidx.appcompat.R.styleable.TextAppearance_android_textColor);
         } finally {
             ta.recycle();
         }
@@ -406,7 +410,7 @@ public class TabLayoutWithListener extends HorizontalScrollView {
 
     /**
      * Set the scroll position of the tabs. This is useful for when the tabs are being displayed as
-     * part of a scrolling container such as {@link android.support.v4.view.ViewPager}.
+     * part of a scrolling container such as {@link  androidx.viewpager.widget.ViewPager}.
      * <p>
      * Calling this method does not update the selected tab, it is only used for drawing purposes.
      *
@@ -505,14 +509,14 @@ public class TabLayoutWithListener extends HorizontalScrollView {
 
     private void addTabFromItemView(@NonNull TabItem item) {
         final Tab tab = newTab();
-        if (item.mText != null) {
-            tab.setText(item.mText);
+        if (item.text != null) {
+            tab.setText(item.text);
         }
-        if (item.mIcon != null) {
-            tab.setIcon(item.mIcon);
+        if (item.icon != null) {
+            tab.setIcon(item.icon);
         }
-        if (item.mCustomLayout != 0) {
-            tab.setCustomView(item.mCustomLayout);
+        if (item.customLayout != 0) {
+            tab.setCustomView(item.customLayout);
         }
         if (!TextUtils.isEmpty(item.getContentDescription())) {
             tab.setContentDescription(item.getContentDescription());
@@ -682,7 +686,7 @@ public class TabLayoutWithListener extends HorizontalScrollView {
      * <li>{@link #MODE_SCROLLABLE}: Scrollable tabs display a subset of tabs at any given moment,
      * and can contain longer tab labels and a larger number of tabs. They are best used for
      * browsing contexts in touch interfaces when users don’t need to directly compare the tab
-     * labels. This mode is commonly used with a {@link android.support.v4.view.ViewPager}.</li>
+     * labels. This mode is commonly used with a {@link androidx.core.view.ViewPager}.</li>
      * </ul>
      *
      * @param mode one of {@link #MODE_FIXED} or {@link #MODE_SCROLLABLE}.
@@ -1108,9 +1112,9 @@ public class TabLayoutWithListener extends HorizontalScrollView {
                 mScrollAnimator = ViewUtils.createAnimator();
                 mScrollAnimator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);
                 mScrollAnimator.setDuration(ANIMATION_DURATION);
-                mScrollAnimator.addUpdateListener(new ValueAnimatorCompat.AnimatorUpdateListener() {
+                mScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
-                    public void onAnimationUpdate(ValueAnimatorCompat animator) {
+                    public void onAnimationUpdate(ValueAnimator animator) {
                         scrollTo(animator.getAnimatedIntValue(), 0);
                     }
                 });
@@ -1836,7 +1840,7 @@ public class TabLayoutWithListener extends HorizontalScrollView {
         private int mIndicatorLeft = -1;
         private int mIndicatorRight = -1;
 
-        private ValueAnimatorCompat mIndicatorAnimator;
+        private ValueAnimator mIndicatorAnimator;
 
         SlidingTabStrip(Context context) {
             super(context);
@@ -1870,6 +1874,7 @@ public class TabLayoutWithListener extends HorizontalScrollView {
 
         void setIndicatorPositionFromTabPosition(int position, float positionOffset) {
             if (mIndicatorAnimator != null && mIndicatorAnimator.isRunning()) {
+
                 mIndicatorAnimator.cancel();
             }
 
@@ -2033,22 +2038,22 @@ public class TabLayoutWithListener extends HorizontalScrollView {
             }
 
             if (startLeft != targetLeft || startRight != targetRight) {
-                ValueAnimatorCompat animator = mIndicatorAnimator = ViewUtils.createAnimator();
+                ValueAnimator animator = mIndicatorAnimator = new ValueAnimator();
                 animator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);
                 animator.setDuration(duration);
                 animator.setFloatValues(0, 1);
-                animator.addUpdateListener(new ValueAnimatorCompat.AnimatorUpdateListener() {
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
-                    public void onAnimationUpdate(ValueAnimatorCompat animator) {
+                    public void onAnimationUpdate(ValueAnimator animator) {
                         final float fraction = animator.getAnimatedFraction();
                         setIndicatorPosition(
                                 AnimationUtils.lerp(startLeft, targetLeft, fraction),
                                 AnimationUtils.lerp(startRight, targetRight, fraction));
                     }
                 });
-                animator.addListener(new ValueAnimatorCompat.AnimatorListenerAdapter() {
+                animator.addListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
-                    public void onAnimationEnd(ValueAnimatorCompat animator) {
+                    public void onAnimationUpdate(ValueAnimator animation) {
                         mSelectedPosition = position;
                         mSelectionOffset = 0f;
                     }

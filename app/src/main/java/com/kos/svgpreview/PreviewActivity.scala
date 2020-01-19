@@ -3,11 +3,11 @@ package com.kos.svgpreview
 import java.io.File
 
 import android.os.Bundle
-import android.support.design.widget.TabLayoutWithListener
 import android.support.v4.view.ViewPager
 import android.support.v4.view.ViewPager.OnPageChangeListener
 import android.view.MenuItem
 import android.view.View.OnClickListener
+import com.google.android.material.TabLayoutWithListener
 import com.kos.svgpreview.adapters.FilePagerAdapter
 import com.kos.svgpreview.bus.{BusSvgConvert, IBusCommand}
 import com.kos.svgpreview.data.BasicData

@@ -12,9 +12,11 @@
  * the License.
  */
 
-package android.support.graphics.drawable;
+package androidx.vectordrawable.graphics.drawable;
 
-import android.support.v4.graphics.drawable.DrawableCompat;
+import androidx.collection.ArrayMap;
+import androidx.core.graphics.PathParser;
+import androidx.core.graphics.drawable.DrawableCompat;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -39,8 +41,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.util.ArrayMap;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -1354,8 +1355,8 @@ public class VectorDrawableCompat2 extends VectorDrawableCommon {
         public String NodesToString(PathParser.PathDataNode[] nodes) {
             String result = " ";
             for (int i = 0; i < nodes.length; i++) {
-                result += nodes[i].type + ":";
-                float[] params = nodes[i].params;
+                result += nodes[i].mType + ":";
+                float[] params = nodes[i].mParams;
                 for (int j = 0; j < params.length; j++) {
                     result += params[j] + ",";
                 }

@@ -12,9 +12,8 @@
  * the License.
  */
 
-package android.support.graphics.drawable;
+package androidx.vectordrawable.graphics.drawable;
 
-import android.content.res.TypedArray;
 import org.xmlpull.v1.XmlPullParser;
 
 class TypedArrayUtils2 {

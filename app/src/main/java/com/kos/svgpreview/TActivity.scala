@@ -1,10 +1,10 @@
 package com.kos.svgpreview
 
-import android.support.design.widget.TabLayoutWithListener
 import android.util.Log
 import android.view.{MenuItem, View}
 import android.view.View.OnClickListener
 import android.widget.Button
+import com.google.android.material.TabLayoutWithListener
 import com.kos.svgpreview.common.SActivity
 
 /**

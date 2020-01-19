@@ -18,7 +18,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 
-		<android.support.design.widget.TabLayoutWithListener
+		<com.google.android.material.TabLayoutWithListener
 			android:id="@+id/tabs"
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/tabBLayoutHeight"

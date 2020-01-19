@@ -15,7 +15,7 @@ import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.v4.util.ArrayMap;
+import androidx.core.util.ArrayMap;
 import android.util.AttributeSet;
 //import android.util.Log;
 import android.view.View;
@@ -29,7 +29,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Stack;
 
 /**

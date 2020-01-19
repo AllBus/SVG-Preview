@@ -1,12 +1,10 @@
 package com.kos.svgpreview.adapters
 
-import java.io.File
-
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, ViewGroup}
+import androidx.recyclerview.widget.RecyclerView
 import com.kos.svgpreview.R
 import com.kos.svgpreview.adapters.holders.NavFileHolder
 import com.kos.svgpreview.data.BasicData

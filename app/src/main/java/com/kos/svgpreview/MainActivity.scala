@@ -4,11 +4,11 @@ import java.io._
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayoutWithListener
-import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.view.View.OnClickListener
 import android.view.{MenuItem, View}
 import android.widget.{PopupMenu, TextView}
+import androidx.recyclerview.widget.{LinearLayoutManager, RecyclerView}
+import com.google.android.material.TabLayoutWithListener
 import com.kos.svgpreview.adapters.NavFileAdapter
 import com.kos.svgpreview.bus.BusSvgConvert
 import com.kos.svgpreview.data.{BasicData, CommandData}
