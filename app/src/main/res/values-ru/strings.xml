@@ -32,4 +32,6 @@
 	<string name="fileDownloadsPath">Загрузки</string>
 
 	<string name="privatePolicy">Политика конфиденциальности</string>
+
+	<string name="fileTopPath">/</string>
 </resources>

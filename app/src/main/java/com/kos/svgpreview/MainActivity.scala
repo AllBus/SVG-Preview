@@ -3,10 +3,14 @@ package com.kos.svgpreview
 import java.io._
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View.OnClickListener
 import android.view.{MenuItem, View}
 import android.widget.{PopupMenu, TextView}
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.{LinearLayoutManager, RecyclerView}
 import com.google.android.material.TabLayoutWithListener
 import com.kos.svgpreview.adapters.NavFileAdapter
@@ -21,6 +25,8 @@ object InfoActivity {
 	val DATA_COMMAND_NAME = "show_command_name"
 	val LOG_TAG = "Kos"
 	val KEY_NAVIGATE_HOME = "key_navigate_home"
+
+	val FILE_PERMISSION = 10002
 }
 
 class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
@@ -55,6 +61,11 @@ class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
 		moreBtn.setOnClickListener(this)
 	}
 
+
+	override def onResume(): Unit = {
+		super.onResume()
+		checkPermissions
+	}
 
 	def loadFileList(): Unit = {
 		val intent = getIntent
@@ -164,5 +175,50 @@ class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
 		}else{
 			snack(list, R.string.snackCompleteFailCreateVector)
 		}
+	}
+
+	private def checkPermissions(): Boolean = {
+		if (ContextCompat.checkSelfPermission(this,
+			android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+			requestPermissions(Array(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE), FILE_PERMISSION)
+			return false
+		}
+		return true
+	}
+
+
+
+
+	override def onRequestPermissionsResult(requestCode: Int,
+											permissions: Array[String],
+											grantResults: Array[Int]
+										   ) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+		if (requestCode == FILE_PERMISSION) {
+
+			if (grantResults.nonEmpty) {
+				if (grantResults(0) == PackageManager.PERMISSION_GRANTED) {
+					showAccess()
+
+				} else {
+					showViewNoAccess()
+					if (!shouldShowRequestPermissionRationale(permissions(0)) && isLaunchPermScreen) {
+						isLaunchPermScreen = false
+						val intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+						val uri = Uri.fromParts("package", this.getPackageName, null)
+						intent.setData(uri)
+						startActivity(intent)
+					}
+				}
+			}
+		}
+	}
+
+	var isLaunchPermScreen = false
+
+	def showViewNoAccess() = {}
+
+	def showAccess() = {
+		loadFileList()
 	}
 }

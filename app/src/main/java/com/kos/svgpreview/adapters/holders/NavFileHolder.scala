@@ -21,7 +21,7 @@ class NavFileHolder(topView: View, clickListener: OnClickListener) extends Recyc
 	private[this] val text = find[TextView](R.id.text)
 
 
-	def bind(item: BasicData, postion: Int): Unit = {
+	def bind(item: BasicData, position: Int): Unit = {
 		itemView.setTag(item)
 
 		image.setImageResource(if (item.getCommand == 0) {

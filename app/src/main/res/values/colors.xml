@@ -3,4 +3,10 @@
 	<color name="colorPrimary">#ff9800</color>
 	<color name="colorPrimaryDark">#f57c00</color>
 	<color name="colorAccent">#ffab40</color>
+
+	<color name="fonWhite">#ffffff</color>
+	<color name="fonBlack">#000000</color>
+	<color name="fonRed">#ff0000</color>
+	<color name="fonGreen">#00ff00</color>
+	<color name="fonBlue">#0000ff</color>
 </resources>

@@ -56,7 +56,7 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 		if (folder != null) {
 			//			openXml(new File(folder))
 
-			val (f: File, list: Seq[BasicData]) = readFileList
+			val (f: File, list: Seq[BasicData]) = readFileList(folder,command)
 			adapter = new FilePagerAdapter(this, fragmentManger, list)
 
 			viewPager.setAdapter(adapter)
@@ -87,7 +87,7 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
 	}
 
-	def readFileList: (File, Seq[BasicData]) = {
+	def readFileList(folder:String,command:Int): (File, Seq[BasicData]) = {
 		val f = new File(folder)
 		val list: Seq[BasicData] = command match {
 

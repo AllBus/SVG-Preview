@@ -4,6 +4,7 @@ import java.io.{FileInputStream, _}
 
 import android.content.Context
 import android.os.Environment
+import android.util.Log
 import com.kos.svgpreview.{PreviewActivity, R}
 import com.kos.svgpreview.data.{BasicData, CommandData}
 import com.kos.svgpreview.parser.svg.SvgToDrawableConverter
@@ -52,6 +53,8 @@ object AndroidFileUtils {
 		Try(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)).getOrElse(new File("/"))
 	}
 
+	def getTopPath : File = { new File("/storage/self/") }
+
 	@inline
 	def tryFile[A <: Closeable](top: ⇒ A, body: A ⇒ Unit): Unit = {
 		try {
@@ -66,7 +69,7 @@ object AndroidFileUtils {
 		}
 	}
 
-	val defualtFilter = new FilenameFilter {
+	val defaultFilter = new FilenameFilter {
 		override def accept(dir: File, name: String): Boolean = {
 			if (name.startsWith("."))
 				return false
@@ -89,13 +92,21 @@ object AndroidFileUtils {
 
 	def loadList(file: File): Seq[BasicData] = {
 		try {
+
 			if (file.exists() && file.isDirectory) {
-				file.listFiles(AndroidFileUtils.defualtFilter).map(new BasicData(_)).sorted
+				val list = file.listFiles(AndroidFileUtils.defaultFilter)
+				if (list==null) {
+					Log.d("Kos","Null folder "+file.canRead+" "+file.getAbsolutePath)
+					Seq[BasicData]()
+				}
+				else
+					list.map(new BasicData(_)).sorted
 			} else {
 				Seq[BasicData]()
 			}
 		}catch{
-			case _:Throwable ⇒
+			case t:Throwable ⇒
+				t.printStackTrace()
 				Seq[BasicData]()
 		}
 	}
@@ -106,6 +117,7 @@ object AndroidFileUtils {
 			val a = new CommandData(AndroidFileUtils.getPhonePath,0, context.getString(R.string.filePhonePath))
 			val b = new CommandData(AndroidFileUtils.getSDPath,0, context.getString(R.string.fileSDPath))
 			val com=Seq[BasicData](
+				new CommandData(AndroidFileUtils.getTopPath,0, context.getString(R.string.fileTopPath)),
 				new CommandData(AndroidFileUtils.myDocumentsPath,0, context.getString(R.string.fileDocumentsPath)),
 				new CommandData(AndroidFileUtils.getDownloadsPath,0, context.getString(R.string.fileDownloadsPath))
 			) //new CommandData(new File("create"), 1,"Create Xml"),new CommandData(new File("svg"), 1,"Create SVG"))

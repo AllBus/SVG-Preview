@@ -34,4 +34,5 @@
 	<string name="privatePolicy">Privacy Policy</string>
 	<string name="privatePolicyUri" translatable="false">"https://allbus.github.io/ProjectTerms/privacy/svgPreview.html"</string>
 
+	<string name="fileTopPath">Top</string>
 </resources>
