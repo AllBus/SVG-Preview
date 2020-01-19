@@ -6,11 +6,11 @@ import android.content.Intent
 import android.graphics.{BitmapFactory, Color}
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.webkit.{WebView, WebViewClient}
-import android.widget.{Button, ImageView, TextView}
+import android.widget.{ImageView, TextView}
+import androidx.recyclerview.widget.{LinearLayoutManager, RecyclerView}
 import com.kos.svgpreview._
 import com.kos.svgpreview.adapters.NavFileAdapter
 import com.kos.svgpreview.bus.IBusCommand
@@ -23,9 +23,9 @@ import com.kos.svgpreview.parser.graphics.TypedArrayUtils
 import com.kos.svgpreview.parser.svg.SvgToDrawableConverter
 import com.kos.svgpreview.stylesheets.previewstyles.AllSvg
 import org.xmlpull.v1.XmlPullParserFactory
+import scalatags.Text.TypedTag
 
 import scala.util.Try
-import scalatags.Text.TypedTag
 
 /**
   * Created by Kos on 23.09.2016.

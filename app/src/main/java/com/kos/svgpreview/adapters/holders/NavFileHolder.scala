@@ -1,11 +1,9 @@
 package com.kos.svgpreview.adapters.holders
 
-import java.io.File
-
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.{ImageView, TextView}
+import androidx.recyclerview.widget.RecyclerView
 import com.kos.svgpreview.R
 import com.kos.svgpreview.data.BasicData
 

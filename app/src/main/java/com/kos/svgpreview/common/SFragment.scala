@@ -1,8 +1,8 @@
 package com.kos.svgpreview.common
 
-import android.app.Fragment
-import android.support.design.widget.Snackbar
 import android.view.View
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 /**
   * Created by Kos on 23.09.2016.

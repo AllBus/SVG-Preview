@@ -3,16 +3,15 @@ package com.kos.svgpreview
 import java.io.File
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v4.view.ViewPager.OnPageChangeListener
 import android.view.MenuItem
 import android.view.View.OnClickListener
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.TabLayoutWithListener
 import com.kos.svgpreview.adapters.FilePagerAdapter
 import com.kos.svgpreview.bus.{BusSvgConvert, IBusCommand}
 import com.kos.svgpreview.data.BasicData
 import com.kos.svgpreview.files.AndroidFileUtils
-import com.kos.svgpreview.parser.svg.SvgToDrawableConverter
 import com.kos.svgpreview.threads.AsynhConvert
 import com.squareup.otto.Subscribe
 

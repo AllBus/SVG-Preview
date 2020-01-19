@@ -16,6 +16,7 @@
 
 package com.google.android.material;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -1109,13 +1110,14 @@ public class TabLayoutWithListener extends HorizontalScrollView {
 
         if (startScrollX != targetScrollX) {
             if (mScrollAnimator == null) {
-                mScrollAnimator = ViewUtils.createAnimator();
+
+                mScrollAnimator = new ValueAnimator();
                 mScrollAnimator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);
                 mScrollAnimator.setDuration(ANIMATION_DURATION);
                 mScrollAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animator) {
-                        scrollTo(animator.getAnimatedIntValue(), 0);
+                        scrollTo((int)animator.getAnimatedValue(), 0);
                     }
                 });
             }
@@ -2047,11 +2049,12 @@ public class TabLayoutWithListener extends HorizontalScrollView {
                     public void onAnimationUpdate(ValueAnimator animator) {
                         final float fraction = animator.getAnimatedFraction();
                         setIndicatorPosition(
-                                AnimationUtils.lerp(startLeft, targetLeft, fraction),
-                                AnimationUtils.lerp(startRight, targetRight, fraction));
+                                lerp(startLeft, targetLeft, fraction),
+                                lerp(startRight, targetRight, fraction));
                     }
                 });
-                animator.addListener(new ValueAnimator.AnimatorUpdateListener() {
+                animator.addUpdateListener(
+                new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         mSelectedPosition = position;
@@ -2072,6 +2075,14 @@ public class TabLayoutWithListener extends HorizontalScrollView {
                         mIndicatorRight, getHeight(), mSelectedIndicatorPaint);
             }
         }
+    }
+
+    public static float lerp(float startValue, float endValue, float fraction) {
+        return startValue + fraction * (endValue - startValue);
+    }
+
+    public static int lerp(int startValue, int endValue, float fraction) {
+        return startValue + Math.round(fraction * (float)(endValue - startValue));
     }
 
     private static ColorStateList createColorStateList(int defaultColor, int selectedColor) {

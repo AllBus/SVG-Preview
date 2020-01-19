@@ -8,7 +8,6 @@ import com.kos.svgpreview.parser.svg.CssStyleObject.CssStyle
 import com.kos.svgpreview.parser.{ColorSet, ValueConverter}
 import ValueConverter._
 import CssStyleObject._
-import android.util.Log
 import com.kos.svgpreview.parser.graphics.{PathDataNode, PathParser}
 
 import scala.collection.mutable

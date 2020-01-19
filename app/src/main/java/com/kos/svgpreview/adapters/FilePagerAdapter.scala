@@ -1,13 +1,10 @@
 package com.kos.svgpreview.adapters
 
-import java.io.{File, FilenameFilter}
+import java.io.File
 
-import android.app.{Fragment, FragmentManager}
 import android.content.Context
-import android.support.v13.app.FragmentPagerAdapter
-import com.kos.svgpreview.R
-import com.kos.svgpreview.data.{BasicData, CommandData}
-import com.kos.svgpreview.files.AndroidFileUtils
+import androidx.fragment.app.{Fragment, FragmentManager, FragmentPagerAdapter}
+import com.kos.svgpreview.data.BasicData
 import com.kos.svgpreview.fragments.PreviewPageFragment
 
 

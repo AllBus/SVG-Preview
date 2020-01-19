@@ -1,11 +1,11 @@
 package com.kos.svgpreview.common
 
 import android.app.Activity
-import android.support.annotation.IdRes
-import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.Toolbar
-import com.kos.svgpreview.InfoActivity
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.kos.svgpreview.bus.BusProvider
 
 /**
@@ -13,13 +13,13 @@ import com.kos.svgpreview.bus.BusProvider
   */
 
 
-class SActivity extends Activity {
+class SActivity extends AppCompatActivity {
 
 
 
 	def find[T <: View](resId: Int) = findViewById(resId).asInstanceOf[T]
 
-	def fragmentManger=getFragmentManager
+	def fragmentManger=getSupportFragmentManager
 
 	def setupToolBarWithBackButton(@IdRes toolbarId:Int): Unit ={
 		setupToolBar(toolbarId)

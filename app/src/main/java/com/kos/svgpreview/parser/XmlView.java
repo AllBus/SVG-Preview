@@ -15,9 +15,7 @@ import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Build;
-import androidx.core.util.ArrayMap;
 import android.util.AttributeSet;
-//import android.util.Log;
 import android.view.View;
 
 import com.kos.svgpreview.parser.graphics.PathDataNode;
@@ -30,6 +28,10 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
+
+import androidx.collection.ArrayMap;
+
+//import android.util.Log;
 
 /**
  * Created on 23.09.2016.

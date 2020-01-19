@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.TabLayoutWithListener
@@ -20,14 +19,14 @@ class AboutActivity extends TActivity with View.OnClickListener {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_about)
 		try {
-			findViewById(R.id.tvVersion).asInstanceOf[TextView].setText(getString(R.string.ap_version, getPackageManager.getPackageInfo(this.getPackageName, 0).versionName))
+			findViewById[View](R.id.tvVersion).asInstanceOf[TextView].setText(getString(R.string.ap_version, getPackageManager.getPackageInfo(this.getPackageName, 0).versionName))
 		}
 		catch {
 			case e: PackageManager.NameNotFoundException ⇒
 		}
-		findViewById(R.id.btnWriteLater).setOnClickListener(this)
-		findViewById(R.id.btnMarkApp).setOnClickListener(this)
-		findViewById(R.id.btnPrivatePolicy).setOnClickListener(this)
+		findViewById[View](R.id.btnWriteLater).setOnClickListener(this)
+		findViewById[View](R.id.btnMarkApp).setOnClickListener(this)
+		findViewById[View](R.id.btnPrivatePolicy).setOnClickListener(this)
 
 		setupTabs(tabs)
 		tabs.addTab(tabs.newTab().setText(R.string.titleAbout))
