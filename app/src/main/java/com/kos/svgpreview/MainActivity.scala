@@ -26,6 +26,9 @@ object InfoActivity {
 	val LOG_TAG = "Kos"
 	val KEY_NAVIGATE_HOME = "key_navigate_home"
 
+	val PREFERENCE= "preference"
+	val PREVIEW_COLOR = "key_preview_color"
+
 	val FILE_PERMISSION = 10002
 }
 

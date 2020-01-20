@@ -53,7 +53,7 @@ object AndroidFileUtils {
 		Try(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)).getOrElse(new File("/"))
 	}
 
-	def getTopPath : File = { new File("/storage/self/") }
+	def getTopPath : File = { new File("/") }
 
 	@inline
 	def tryFile[A <: Closeable](top: ⇒ A, body: A ⇒ Unit): Unit = {

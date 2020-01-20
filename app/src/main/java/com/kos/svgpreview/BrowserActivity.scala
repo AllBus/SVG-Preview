@@ -1,6 +1,8 @@
 package com.kos.svgpreview
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebView
 import com.kos.svgpreview.common.SActivity
 
@@ -25,6 +27,24 @@ class BrowserActivity extends SActivity {
 			webSettings.setBuiltInZoomControls(true)
 			webSettings.setDisplayZoomControls(false)
 			webSettings.setSupportZoom(true)
+
 		}
+
+		loadBackColor()
+	}
+
+	def loadBackColor(): Unit ={
+		val sPref = getSharedPreferences(InfoActivity.PREFERENCE, Context.MODE_PRIVATE)
+		val color = sPref.getInt(PREVIEW_COLOR, 0xffffffff)
+		find[View](R.id.webView).setBackgroundColor(color)
+	}
+
+	def setBackColor(color: Int): Unit = {
+		find[View](R.id.webView).setBackgroundColor(color)
+		import android.content.SharedPreferences.Editor
+		val sPref = getSharedPreferences(InfoActivity.PREFERENCE, Context.MODE_PRIVATE)
+		val ed = sPref.edit
+		ed.putInt(PREVIEW_COLOR, color)
+		ed.commit()
 	}
 }

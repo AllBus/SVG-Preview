@@ -2,9 +2,12 @@ package com.kos.svgpreview
 
 import java.io.File
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
+import android.preference.PreferenceManager
 import android.view.View.OnClickListener
+import android.view.{MenuItem, View}
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.TabLayoutWithListener
@@ -14,6 +17,7 @@ import com.kos.svgpreview.data.BasicData
 import com.kos.svgpreview.files.AndroidFileUtils
 import com.kos.svgpreview.threads.AsynhConvert
 import com.squareup.otto.Subscribe
+import scalacss.internal.Media.Color
 
 class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
@@ -45,6 +49,8 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
 		//	setupToolBarWithBackButton(R.id.toolBar)
 
+		Array(R.id.fonWhite, R.id.fonBlack, R.id.fonRed, R.id.fonBlue, R.id.fonGreen).map(findViewById[View]).foreach(_.setOnClickListener(this))
+
 		setupTabs(tabs)
 
 
@@ -56,7 +62,7 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 		if (folder != null) {
 			//			openXml(new File(folder))
 
-			val (f: File, list: Seq[BasicData]) = readFileList(folder,command)
+			val (f: File, list: Seq[BasicData]) = readFileList(folder, command)
 			adapter = new FilePagerAdapter(this, fragmentManger, list)
 
 			viewPager.setAdapter(adapter)
@@ -87,7 +93,7 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
 	}
 
-	def readFileList(folder:String,command:Int): (File, Seq[BasicData]) = {
+	def readFileList(folder: String, command: Int): (File, Seq[BasicData]) = {
 		val f = new File(folder)
 		val list: Seq[BasicData] = command match {
 
@@ -151,6 +157,8 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 		}
 	}
 
+
+
 	//	def openXml(f: File): Unit = {
 	//
 	//		text.setText(f.getName)
@@ -187,25 +195,56 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 	//		})
 	//	}
 
+	override def onResume(): Unit = {
+		super.onResume()
+		loadBackColor()
+	}
+
 	override def cancelNavigateStack(command: Int, addBack: Boolean): Unit = {
 		navigateHome = false
 	}
 
 	@Subscribe
 	def busCompleteConvert(updater: BusSvgConvert): Unit = {
-		if (updater.isComplete>0) {
+		if (updater.isComplete > 0) {
 			if (updater.isComplete == 1)
 				snack(viewPager, R.string.snackCompleteCreateVector)
 			else
 				snack(viewPager, R.string.snackComplete2CreateVector)
-//			val (f: File, list: Seq[BasicData]) = readFileList
-//			if (adapter!=null){
-//				adapter.update(list)
-//			}
+			//			val (f: File, list: Seq[BasicData]) = readFileList
+			//			if (adapter!=null){
+			//				adapter.update(list)
+			//			}
 
 		} else {
 			snack(viewPager, R.string.snackCompleteFailCreateVector)
 		}
 	}
 
+	def loadBackColor(): Unit ={
+		val sPref = getSharedPreferences(InfoActivity.PREFERENCE, Context.MODE_PRIVATE)
+		val color = sPref.getInt(PREVIEW_COLOR, 0xffffffff)
+		find[View](R.id.pager).setBackgroundColor(color)
+	}
+
+	def setBackColor(color: Int): Unit = {
+		find[View](R.id.pager).setBackgroundColor(color)
+
+		val sPref = getSharedPreferences(InfoActivity.PREFERENCE, Context.MODE_PRIVATE)
+		val ed = sPref.edit
+		ed.putInt(PREVIEW_COLOR, color)
+		ed.commit()
+	}
+
+	override def onClick(v: View): Unit = {
+		v.getId match {
+			case R.id.fonWhite ⇒ setBackColor(0xffffffff)
+			case R.id.fonBlack ⇒ setBackColor(0xff000000)
+			case R.id.fonRed ⇒ setBackColor(0xffff0000)
+			case R.id.fonBlue ⇒ setBackColor(0xff0000ff)
+			case R.id.fonGreen ⇒ setBackColor(0xff00ff00)
+
+			case _ ⇒ super.onClick(v)
+		}
+	}
 }
