@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.view.View.OnClickListener
 import android.view.{MenuItem, View}
 import android.widget.{PopupMenu, TextView}
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.{LinearLayoutManager, RecyclerView}
 import com.google.android.material.TabLayoutWithListener
@@ -183,7 +184,7 @@ class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
 	private def checkPermissions(): Boolean = {
 		if (ContextCompat.checkSelfPermission(this,
 			android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-			requestPermissions(Array(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE), FILE_PERMISSION)
+			ActivityCompat.requestPermissions(this, Array(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE), FILE_PERMISSION)
 			return false
 		}
 		return true

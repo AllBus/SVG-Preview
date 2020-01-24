@@ -2,7 +2,7 @@ package com.kos.svgpreview.fragments
 
 import java.io._
 
-import android.content.Intent
+import android.content.{Context, Intent}
 import android.graphics.{BitmapFactory, Color}
 import android.net.Uri
 import android.os.Bundle
@@ -79,16 +79,52 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 
 					case _ ⇒
 				}
+
+			case R.id.fonWhite ⇒ setBackColor(0xffffffff)
+			case R.id.fonBlack ⇒ setBackColor(0xff000000)
+			case R.id.fonRed ⇒ setBackColor(0xffff0000)
+			case R.id.fonBlue ⇒ setBackColor(0xff0000ff)
+			case R.id.fonGreen ⇒ setBackColor(0xff00ff00)
 			case _ ⇒
 		}
 
 	}
+//
+//	def loadBackColor(): Unit ={
+//		Option(find[View](R.id.backgroundImages)).foreach { v ⇒
+//			val sPref = getActivity.getSharedPreferences(InfoActivity.PREFERENCE, Context.MODE_PRIVATE)
+//			val color = sPref.getInt(PREVIEW_COLOR, 0xffffffff)
+//			v.setBackgroundColor(color)
+//		}
+//	}
+//
+	def setBackColor(color: Int): Unit = {
+		find[View](R.id.backgroundImages).setBackgroundColor(color)
+
+		val sPref = getActivity.getSharedPreferences(InfoActivity.PREFERENCE, Context.MODE_PRIVATE)
+		val ed = sPref.edit
+		ed.putInt(PREVIEW_COLOR, color)
+		ed.commit()
+	}
+
 
 
 	//	override def onCreate(savedInstanceState: Bundle) {
 	//		super.onCreate(savedInstanceState)
 	//		setHasOptionsMenu(true)
 	//	}
+
+
+	override def onStart(): Unit = {
+		super.onStart()
+	//	loadBackColor()
+	}
+
+	override def onResume(): Unit = {
+		super.onResume()
+
+	}
+
 
 	override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
 		//	super.onCreateView(inflater, container, savedInstanceState)
@@ -160,6 +196,17 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 			inflater.inflate(R.layout.layout_file_preview, container, false)
 		}
 
+
+
+	}
+
+
+	override def onViewCreated(view: View, savedInstanceState: Bundle): Unit = {
+		super.onViewCreated(view, savedInstanceState)
+		Array(R.id.fonWhite, R.id.fonBlack, R.id.fonRed, R.id.fonBlue, R.id.fonGreen).
+			map(view.findViewById[View]).
+			filter(_!=null).
+			foreach(_.setOnClickListener(this))
 	}
 
 	def openText(view: View, f: File): Unit = {

@@ -49,7 +49,10 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
 		//	setupToolBarWithBackButton(R.id.toolBar)
 
-		Array(R.id.fonWhite, R.id.fonBlack, R.id.fonRed, R.id.fonBlue, R.id.fonGreen).map(findViewById[View]).foreach(_.setOnClickListener(this))
+		Array(R.id.fonWhite, R.id.fonBlack, R.id.fonRed, R.id.fonBlue, R.id.fonGreen).
+			map(findViewById[View]).
+			filter(_!=null).
+			foreach(_.setOnClickListener(this))
 
 		setupTabs(tabs)
 
