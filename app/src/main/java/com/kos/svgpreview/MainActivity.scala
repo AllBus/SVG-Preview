@@ -63,12 +63,13 @@ class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
 		loadFileList()
 
 		moreBtn.setOnClickListener(this)
+		checkPermissions()
 	}
 
 
 	override def onResume(): Unit = {
 		super.onResume()
-		checkPermissions
+
 	}
 
 	def loadFileList(): Unit = {
@@ -82,6 +83,8 @@ class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
 			val blockText = find[TextView](R.id.blockText)
 			blockText.setVisibility(View.VISIBLE)
 		} else {
+			val blockText = find[TextView](R.id.blockText)
+			blockText.setVisibility(View.GONE)
 			val adapter = new NavFileAdapter(this,
 				new OnClickListener {
 					override def onClick(v: View): Unit = {

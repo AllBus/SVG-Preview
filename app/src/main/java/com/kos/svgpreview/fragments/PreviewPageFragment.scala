@@ -6,6 +6,7 @@ import android.content.{Context, Intent}
 import android.graphics.{BitmapFactory, Color}
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
 import android.webkit.{WebView, WebViewClient}
@@ -256,12 +257,19 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 					httpEquiv := "Content-Type",
 					content := "text/html; charset=utf-8"
 				),
-				AllSvg.render[TypedTag[String]]
+				raw(
+					"<style type=\"text/css\">\n" +
+					".AllSvg-sign {\n      width: 160px;\n      height: auto;\n      margin: 4px;\n    }\n" +
+					".AllSvg-btn {\n      height: 36px;\n      background-color: #ff9800;\n      padding: 8px;\n      margin: 16px;\n      color: white;\n      text-align: center;\n      vertical-align: middle;\n    }\n" +
+					"</style>"
+				)
+		//		AllSvg.render[TypedTag[String]]
 			),
 			body(
 				textAlign.center,
 				div(
-					AllSvg.btn,
+					//AllSvg.btn,
+					cls:= "AllSvg-btn",
 					a(href := s"svg:${BasicData.COMMAND_CREATE_ALL_SVG}:${f.getAbsolutePath}",
 						color.white,
 						getString(R.string.createAllSvg)
@@ -271,7 +279,8 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 				list.map { x ⇒
 					a(href := s"svg:0:${x.getAbsolutePath}",
 						img(
-							AllSvg.sign,
+							//AllSvg.sign,
+							cls:="AllSvg-sign",
 							src := s"${x.getAbsolutePath}"
 						)
 					)
