@@ -1,9 +1,10 @@
 package com.kos.svgpreview
 
-import java.io.File
+import java.io.{File, FileDescriptor, FileInputStream, FileNotFoundException}
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.View.OnClickListener
@@ -13,7 +14,7 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.TabLayoutWithListener
 import com.kos.svgpreview.adapters.FilePagerAdapter
 import com.kos.svgpreview.bus.{BusSvgConvert, IBusCommand}
-import com.kos.svgpreview.data.BasicData
+import com.kos.svgpreview.data.{BasicData, ContentCommandData}
 import com.kos.svgpreview.files.AndroidFileUtils
 import com.kos.svgpreview.threads.AsynhConvert
 import com.squareup.otto.Subscribe
@@ -31,8 +32,7 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
 	var navigateHome = false
 
-	var folder: String = null
-	var command = 0
+
 
 
 	override protected def onCreate(savedInstanceState: Bundle) {
@@ -41,9 +41,26 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 
 		val intent = getIntent
 
+		var folder:String = null
+		var command = 0
+		var returnUri:Uri = null
+
 		if (intent != null) {
 			folder = intent.getStringExtra(DATA_FOLDER_NAME)
 			command = intent.getIntExtra(DATA_COMMAND_NAME, 0)
+
+
+			returnUri = intent.getData
+			if (returnUri!=null) {
+				if (returnUri.getScheme.equalsIgnoreCase( "file")){
+					folder=returnUri.getPath
+					returnUri = null
+				}
+
+
+				println("DATA & "+returnUri.getScheme+" %% "+returnUri.getPath+" ^^ "+returnUri.getEncodedPath+" ^^ " + intent.getDataString)
+			}
+
 		}
 
 
@@ -62,15 +79,28 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 		}
 
 
+		val folderFile =
+		if (returnUri!=null) {
+
+			val list: Seq[BasicData] = Seq(new ContentCommandData(returnUri, command))
+			adapter = new FilePagerAdapter(this, fragmentManger, list)
+
+			new File("")
+		}else
 		if (folder != null) {
 			//			openXml(new File(folder))
 
 			val (f: File, list: Seq[BasicData]) = readFileList(folder, command)
 			adapter = new FilePagerAdapter(this, fragmentManger, list)
 
-			viewPager.setAdapter(adapter)
-			viewPager.setCurrentItem(adapter.itemIndex(f, 0))
+			f
+		}else{
+			new File("")
 		}
+
+		viewPager.setAdapter(adapter)
+		viewPager.setCurrentItem(adapter.itemIndex(folderFile, 0))
+
 
 
 		tabs.setupWithViewPager(viewPager)

@@ -2,6 +2,8 @@ package com.kos.svgpreview.data
 
 import java.io.File
 
+import android.net.Uri
+
 /**
   * Created by Kos on 15.09.2016.
   */
@@ -21,6 +23,8 @@ class BasicData(val file: File) extends Ordered[BasicData]{
 	def getName = file.getName
 
 	def getPath = file.getPath
+
+	def getUri = Uri.fromFile(file)
 
 	def getCommand = 0
 

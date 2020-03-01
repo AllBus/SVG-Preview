@@ -17,12 +17,13 @@ class BrowserActivity extends SActivity {
 
 		val intent = getIntent
 		val folder = if (intent != null) {
-			intent.getStringExtra(DATA_FOLDER_NAME)
+			intent.getData
+		//	intent.getStringExtra(DATA_FOLDER_NAME)
 		} else null
 
 		if (folder!=null) {
 			val webView = find[WebView](R.id.webView)
-			webView.loadUrl(folder)
+			webView.loadUrl(folder.toString)
 			val webSettings = webView.getSettings
 			webSettings.setBuiltInZoomControls(true)
 			webSettings.setDisplayZoomControls(false)

@@ -23,7 +23,8 @@ class FilePagerAdapter(context:Context,fm: FragmentManager,fileList:Seq[BasicDat
 	val mCount=list.length
 
 	override def getItem(position: Int): Fragment = {
-		PreviewPageFragment(list(position).getPath,list(position).getCommand)
+
+		PreviewPageFragment(list(position))
 	}
 
 	override def getCount: Int = {

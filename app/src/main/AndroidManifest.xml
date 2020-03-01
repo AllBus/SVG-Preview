@@ -22,6 +22,13 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".PreviewActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+				<data android:scheme="file" android:mimeType="image/svg+xml" />
+				<data android:scheme="content" android:mimeType="image/svg+xml" />
+			</intent-filter>
 		</activity>
 		<activity android:name=".BrowserActivity">
 		</activity>

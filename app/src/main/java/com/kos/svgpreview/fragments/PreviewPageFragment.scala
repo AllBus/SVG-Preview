@@ -2,6 +2,7 @@ package com.kos.svgpreview.fragments
 
 import java.io._
 
+import android.content.ContentResolver.MimeTypeInfo
 import android.content.{Context, Intent}
 import android.graphics.{BitmapFactory, Color}
 import android.net.Uri
@@ -9,7 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
-import android.webkit.{WebView, WebViewClient}
+import android.webkit.{MimeTypeMap, WebView, WebViewClient}
 import android.widget.{ImageView, TextView}
 import androidx.recyclerview.widget.{LinearLayoutManager, RecyclerView}
 import com.kos.svgpreview._
@@ -37,12 +38,12 @@ object PreviewPageFragment {
 	val KEY_COMMAND_NAME = "key_command_name"
 
 
-	def apply(fileName: String, command: Int): PreviewPageFragment = {
+	def apply(basicData: BasicData): PreviewPageFragment = {
 
 		val fragment = new PreviewPageFragment()
 		val args: Bundle = new Bundle()
-		args.putString(KEY_FILE_NAME, fileName)
-		args.putInt(KEY_COMMAND_NAME, command)
+		args.putString(KEY_FILE_NAME, basicData.getUri.toString)
+		args.putInt(KEY_COMMAND_NAME, basicData.getCommand)
 
 		fragment.setArguments(args)
 		fragment
@@ -59,22 +60,25 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 		v.getId match {
 			case R.id.previewInBrowserBtn ⇒
 				v.getTag match {
-					case s: String ⇒
+					case s: Uri ⇒
+						Try {
 
+							val intent = new Intent(context, classOf[BrowserActivity])
+							intent.setData(s)
+							//intent.putExtra(DATA_FOLDER_NAME, s)
 
-						val intent = new Intent(context, classOf[BrowserActivity])
-						intent.putExtra(DATA_FOLDER_NAME, s)
-
-						startActivity(intent)
+							startActivity(intent)
+						}
 					case _ ⇒
 				}
 
 			case R.id.createVectorBtn ⇒
 				v.getTag match {
-					case s: String ⇒
+
+					case s: Uri ⇒
 						v.setVisibility(View.INVISIBLE)
 						getActivity match {
-							case x: IBusCommand ⇒ x.openFromCommand(s, BasicData.COMMAND_CREATE_ALL_SVG, true)
+							case x: IBusCommand ⇒ x.openFromCommand(s.getPath, BasicData.COMMAND_CREATE_ALL_SVG, true)
 							case _ ⇒
 						}
 
@@ -130,73 +134,123 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 	override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
 		//	super.onCreateView(inflater, container, savedInstanceState)
 
+		Try {
+			val args = getArguments
+			if (args != null) {
 
-		val args = getArguments
-		if (args != null) {
 
-			val fileName = getArguments.getString(KEY_FILE_NAME)
-			val command = getArguments.getInt(KEY_COMMAND_NAME, 0)
+				val s = getArguments.getString(KEY_FILE_NAME)
+				val fileUri = if (s != null) {
+					Uri.parse(s)
+				} else {
+					Uri.parse("")
+				}
 
-			if (command == 0) {
-				val file = new BasicData(new File(fileName))
+				val command = getArguments.getInt(KEY_COMMAND_NAME, 0)
 
-				if (file.isDirectory) {
-					if (command == 11) {
+				if (command == 0) {
+					if (fileUri.getScheme.equalsIgnoreCase("file")) {
+						val fileName = fileUri.getPath
+
+
+						val file = new BasicData(new File(fileName))
+
+						if (file.isDirectory) {
+							if (command == 11) {
+
+							}
+							val view = inflater.inflate(R.layout.layout_list, container, false)
+
+							loadFolder(view, file.getPath)
+							view
+						} else if (file.isXml) {
+							val view = inflater.inflate(R.layout.layout_preview, container, false)
+
+							openXml(view, new FileInputStream( file.file))
+							view
+						} else if (file.isSvg) {
+							val view = inflater.inflate(R.layout.layout_svg_preview, container, false)
+
+							openSvg(view,fileUri)
+							view
+						} else if (file.isImage) {
+							val view = inflater.inflate(R.layout.item_sign, container, false)
+
+							openImage(view, new FileInputStream(file.file))
+							view
+						} else if (file.isText) {
+							val view = inflater.inflate(R.layout.layout_file_preview, container, false)
+
+							openText(view, new FileInputStream(file.file))
+							view
+						} else if (file.isWeb) {
+							val view = inflater.inflate(R.layout.layout_browse_preview, container, false)
+
+							openWeb(view, file.file)
+							view
+						} else {
+							val view = inflater.inflate(R.layout.layout_unknown_preview, container, false)
+							//		val text = find[TextView](view, R.id.text)
+							//		text.setText(file.getName)
+							view
+						}
+					}else{
+
+						val inputPFD = getActivity.getContentResolver.openFileDescriptor(fileUri, "r")
+						val mimeType = getActivity.getContentResolver.getType(fileUri)
+						if (mimeType==null){
+							inflater.inflate(R.layout.layout_unknown_preview, container, false)
+						}else {
+							mimeType.split('/') match {
+								case Array(x, "svg+xml") ⇒
+									val view = inflater.inflate(R.layout.layout_svg_preview, container, false)
+
+									openSvg(view, fileUri)
+									view
+								case Array(x, "xml") ⇒
+									val view = inflater.inflate(R.layout.layout_preview, container, false)
+
+									openXml(view, new FileInputStream(inputPFD.getFileDescriptor))
+									view
+								case Array("text", y) ⇒
+									val view = inflater.inflate(R.layout.layout_file_preview, container, false)
+
+									openText(view, new FileInputStream(inputPFD.getFileDescriptor))
+									view
+								case Array("image", y) ⇒
+									val view = inflater.inflate(R.layout.item_sign, container, false)
+
+									openImage(view, new FileInputStream(inputPFD.getFileDescriptor))
+									view
+								case _ ⇒
+									inflater.inflate(R.layout.layout_unknown_preview, container, false)
+							}
+						}
 
 					}
-					val view = inflater.inflate(R.layout.layout_list, container, false)
-
-					loadFolder(view, file.getPath)
-					view
-				} else if (file.isXml) {
-					val view = inflater.inflate(R.layout.layout_preview, container, false)
-
-					openXml(view, file.file)
-					view
-				} else if (file.isSvg) {
-					val view = inflater.inflate(R.layout.layout_svg_preview, container, false)
-
-					openSvg(view, file.file)
-					view
-				} else if (file.isImage) {
-					val view = inflater.inflate(R.layout.item_sign, container, false)
-
-					openImage(view, file.file)
-					view
-				} else if (file.isText) {
-					val view = inflater.inflate(R.layout.layout_file_preview, container, false)
-
-					openText(view, file.file)
-					view
-				} else if (file.isWeb) {
-					val view = inflater.inflate(R.layout.layout_browse_preview, container, false)
-
-					openWeb(view, file.file)
-					view
 				} else {
-					val view = inflater.inflate(R.layout.layout_unknown_preview, container, false)
-					//		val text = find[TextView](view, R.id.text)
-					//		text.setText(file.getName)
-					view
+					command match {
+						case BasicData.COMMAND_ALL_SVG ⇒
+							val view = inflater.inflate(R.layout.layout_browse_preview, container, false)
+							if (fileUri.getScheme.equalsIgnoreCase("file")) {
+								val fileName = fileUri.getPath
+								openWeb(view, fileName, command)
+							}
+							view
+						case _ ⇒
+							val view = inflater.inflate(R.layout.layout_unknown_preview, container, false)
+							//		val text = find[TextView](view, R.id.text)
+							//		text.setText(file.getName)
+							view
+					}
 				}
 			} else {
-				command match {
-					case BasicData.COMMAND_ALL_SVG ⇒
-						val view = inflater.inflate(R.layout.layout_browse_preview, container, false)
-
-						openWeb(view, fileName, command)
-						view
-					case _ ⇒
-						val view = inflater.inflate(R.layout.layout_unknown_preview, container, false)
-						//		val text = find[TextView](view, R.id.text)
-						//		text.setText(file.getName)
-						view
-				}
+				inflater.inflate(R.layout.layout_file_preview, container, false)
 			}
-		} else {
-			inflater.inflate(R.layout.layout_file_preview, container, false)
-		}
 
+		}.getOrElse(
+				inflater.inflate(R.layout.layout_file_preview, container, false)
+		)
 
 
 	}
@@ -210,12 +264,12 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 			foreach(_.setOnClickListener(this))
 	}
 
-	def openText(view: View, f: File): Unit = {
+	def openText(view: View, f: FileInputStream): Unit = {
 
 		val textXml = find[TextView](view, R.id.text)
 
 
-		AndroidFileUtils.tryFile[BufferedReader](new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8")), {
+		AndroidFileUtils.tryFile[BufferedReader](new BufferedReader(new InputStreamReader(f, "utf-8")), {
 			reader ⇒
 				val sb = new StringBuilder()
 				var s = reader.readLine()
@@ -235,6 +289,15 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 
 		setupWebView(webView)
 		webView.loadUrl("file://" + f.getAbsolutePath)
+
+	}
+
+	def openWeb(view: View, f: Uri): Unit = {
+
+		val webView = find[WebView](view, R.id.webView)
+
+		setupWebView(webView)
+		webView.loadUrl(f.toString)
 
 	}
 
@@ -308,16 +371,16 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 	}
 
 
-	def openXml(view: View, f: File): Unit = {
+	def openXml(view: View, f: FileInputStream): Unit = {
 
 		val handler = new PreviewSvgHandler(this)
 		val t = new Thread(new Runnable {
 
 			override def run(): Unit = {
 
-				var res: SvgHandlerResult = SvgHandlerResult(f, null)
+				var res: SvgHandlerResult = SvgHandlerResult(new File(""), null)
 
-				AndroidFileUtils.tryFile[BufferedReader](new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8")), {
+				AndroidFileUtils.tryFile[BufferedReader](new BufferedReader(new InputStreamReader(f, "utf-8")), {
 					reader ⇒
 
 						val factory = XmlPullParserFactory.newInstance();
@@ -335,7 +398,7 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 						//		val d = System.currentTimeMillis() - t
 						//	Log.d("Kos", "time " + f.getName + " " + d)
 
-						res = SvgHandlerResult(f, vectorState)
+						res = SvgHandlerResult(new File(""), vectorState)
 					//		svgHolder.bind(null, vectorState)
 
 				})
@@ -351,23 +414,33 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 	}
 
 
-	def openSvg(view: View, f: File): Unit = {
+	def createConvertBtn(view: View, uri: Uri): Unit ={
 		val btn = find[View](view, R.id.previewInBrowserBtn)
 
-		btn.setTag("file://" + f.getAbsolutePath)
+		btn.setTag(uri)
 		btn.setOnClickListener(this)
 		val createBtn = find[View](view, R.id.createVectorBtn)
-		createBtn.setTag(f.getAbsolutePath)
-		createBtn.setOnClickListener(this)
+		if (uri.getScheme.equalsIgnoreCase("file")) {
+			createBtn.setTag(uri)
+			createBtn.setOnClickListener(this)
+		}else{
+			createBtn.setVisibility(View.INVISIBLE)
+		}
+	}
+
+
+	def openSvg(view: View, uri: Uri): Unit = {
+		createConvertBtn(view,uri)
 
 
 		val handler = new PreviewSvgHandler(this)
 		val t = new Thread(new Runnable {
 
 			override def run(): Unit = {
-				var res: SvgHandlerResult = SvgHandlerResult(f, null)
+				var res: SvgHandlerResult = SvgHandlerResult(new File(""), null)
 				try {
-					val sb = SvgToDrawableConverter.convert(f)
+					val fd = getActivity.getContentResolver.openFileDescriptor(uri, "r").getFileDescriptor
+					val sb = SvgToDrawableConverter.convert(fd)
 
 					val factory = XmlPullParserFactory.newInstance()
 					// включаем поддержку namespace (по умолчанию выключена)
@@ -378,7 +451,7 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 					xpp.setInput(new StringReader(sb.toString())) // даем парсеру на вход Reader
 					val vectorState = XmlView.parse(xpp)
 
-					res = SvgHandlerResult(f, vectorState)
+					res = SvgHandlerResult(new File(""), vectorState)
 
 				}catch {
 					case _ :Throwable ⇒
@@ -387,11 +460,9 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 			}
 		})
 		t.start()
-
 	}
 
-
-	def openImage(view: View, f: File): Unit = {
+	def openImage(view: View, f: FileInputStream): Unit = {
 
 		val smallImage = find[ImageView](view, R.id.smallImage)
 		val appImage = find[ImageView](view, R.id.appImage)
@@ -399,30 +470,28 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 		val imageXml = find[ImageView](view, R.id.image)
 		val textXml = find[TextView](view, R.id.textXml)
 
-		if (f.exists()) {
-			try {
-				val options = new BitmapFactory.Options()
-				options.inJustDecodeBounds = true;
-				BitmapFactory.decodeFile(f.getAbsolutePath, options)
 
-				val size = (360 * getResources.getDisplayMetrics.density).toInt
-				options.inSampleSize = TypedArrayUtils.calculateInSampleSize(options, size, size)
-				options.inJustDecodeBounds = false
+		try {
+			val options = new BitmapFactory.Options()
+			options.inJustDecodeBounds = true
+			BitmapFactory.decodeStream(f, null,options)
 
 
+			val size = (360 * getResources.getDisplayMetrics.density).toInt
+			options.inSampleSize = TypedArrayUtils.calculateInSampleSize(options, size, size)
+			options.inJustDecodeBounds = false
 
-
-				val myBitmap = BitmapFactory.decodeFile(f.getAbsolutePath, options)
-				smallImage.setImageBitmap(myBitmap)
-				appImage.setImageBitmap(myBitmap)
-				realImage.setImageBitmap(myBitmap)
-				imageXml.setImageBitmap(myBitmap)
-				textXml.setText("")
-			} catch {
-				case x: OutOfMemoryError ⇒
-				case _: Throwable ⇒
-			}
+			val myBitmap =	BitmapFactory.decodeStream(f, null,options)
+			smallImage.setImageBitmap(myBitmap)
+			appImage.setImageBitmap(myBitmap)
+			realImage.setImageBitmap(myBitmap)
+			imageXml.setImageBitmap(myBitmap)
+			textXml.setText("")
+		} catch {
+			case x: OutOfMemoryError ⇒
+			case _: Throwable ⇒
 		}
+
 
 	}
 

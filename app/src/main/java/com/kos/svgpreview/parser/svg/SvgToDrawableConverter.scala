@@ -1,6 +1,6 @@
 package com.kos.svgpreview.parser.svg
 
-import java.io.{BufferedWriter, File, FileWriter, FilenameFilter}
+import java.io.{BufferedWriter, File, FileDescriptor, FileWriter, FilenameFilter}
 import java.text.{DecimalFormat, NumberFormat}
 import java.util.Locale
 
@@ -8,11 +8,12 @@ import com.kos.svgpreview.parser.svg.CssStyleObject.CssStyle
 import com.kos.svgpreview.parser.{ColorSet, ValueConverter}
 import ValueConverter._
 import CssStyleObject._
+import android.net.Uri
 import com.kos.svgpreview.parser.graphics.{PathDataNode, PathParser}
 
 import scala.collection.mutable
 import scala.util.Try
-import scala.xml.{Node, XML}
+import scala.xml.{Elem, Node, XML}
 
 /**
   * Created by Kos on 09.09.2016.
@@ -212,9 +213,16 @@ object SvgToDrawableConverter {
 	}
 
 
-	def convert(file: File): StringBuilder = {
+	def convert(fd: FileDescriptor): StringBuilder = {
+		convertXml(XML.loadFile(fd))
+	}
 
-		val xml = XML.loadFile(file)
+
+	def convert(file: File): StringBuilder = {
+		convertXml(XML.loadFile(file))
+	}
+
+	def convertXml(xml:Elem): StringBuilder = {
 
 		val svg = xml \\ "svg"
 
