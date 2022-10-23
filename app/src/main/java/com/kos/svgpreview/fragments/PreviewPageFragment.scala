@@ -1,17 +1,12 @@
 package com.kos.svgpreview.fragments
 
-import android.R
-
-import java.io._
-import android.content.ContentResolver.MimeTypeInfo
 import android.content.{Context, Intent}
 import android.graphics.{BitmapFactory, Color}
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View.OnClickListener
 import android.view.{LayoutInflater, View, ViewGroup}
-import android.webkit.{MimeTypeMap, WebView, WebViewClient}
+import android.webkit.{WebView, WebViewClient}
 import android.widget.{ImageView, TextView}
 import androidx.recyclerview.widget.{LinearLayoutManager, RecyclerView}
 import com.kos.svgpreview._
@@ -24,10 +19,9 @@ import com.kos.svgpreview.fragments.handlers.{PreviewSvgHandler, SvgHandlerResul
 import com.kos.svgpreview.parser.XmlView
 import com.kos.svgpreview.parser.graphics.TypedArrayUtils
 import com.kos.svgpreview.parser.svg.SvgToDrawableConverter
-import com.kos.svgpreview.stylesheets.previewstyles.AllSvg
 import org.xmlpull.v1.XmlPullParserFactory
-import scalatags.Text.TypedTag
 
+import java.io._
 import scala.util.Try
 
 /**
@@ -304,8 +298,6 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 
 	def openWeb(view: View, fileName: String, command: Int): Unit = {
 
-		import scalacss.Defaults._
-		import scalacss.ScalatagsCss._
 		import scalatags.Text.all._
 
 		val webView = find[WebView](view, R.id.webView)
