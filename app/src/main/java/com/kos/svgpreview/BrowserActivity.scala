@@ -28,7 +28,7 @@ class BrowserActivity extends SActivity {
 			webSettings.setBuiltInZoomControls(true)
 			webSettings.setDisplayZoomControls(false)
 			webSettings.setSupportZoom(true)
-
+			webSettings.setAllowFileAccess(true)
 		}
 
 		loadBackColor()

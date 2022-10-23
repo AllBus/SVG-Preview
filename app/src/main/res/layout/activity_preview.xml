@@ -13,7 +13,7 @@
 		android:id="@+id/pager"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="1"></androidx.viewpager.widget.ViewPager>
+		android:layout_weight="1"/>
 
 	<include layout="@layout/layout_select_color" />
 

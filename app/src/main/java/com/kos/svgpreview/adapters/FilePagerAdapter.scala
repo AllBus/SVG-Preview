@@ -11,6 +11,7 @@ import com.kos.svgpreview.fragments.PreviewPageFragment
 /**
   * Created by Kos on 23.09.2016.
   */
+//noinspection ScalaDeprecation
 class FilePagerAdapter(context:Context,fm: FragmentManager,fileList:Seq[BasicData]) extends FragmentPagerAdapter(fm) {
 
 

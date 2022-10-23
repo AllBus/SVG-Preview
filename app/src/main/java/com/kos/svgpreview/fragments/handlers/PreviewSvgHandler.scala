@@ -9,6 +9,7 @@ import com.kos.svgpreview.adapters.holders.SvgHolder
 /**
   * Created by Kos on 25.09.2016.
   */
+//noinspection ScalaDeprecation
 class PreviewSvgHandler(previewPageFragment: PreviewPageFragment) extends Handler{
 	private[this] val refFragment=new WeakReference(previewPageFragment)
 

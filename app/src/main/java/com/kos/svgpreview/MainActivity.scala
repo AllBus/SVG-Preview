@@ -185,11 +185,23 @@ class MainActivity extends TActivity with PopupMenu.OnMenuItemClickListener {
 	}
 
 	private def checkPermissions(): Boolean = {
-		if (ContextCompat.checkSelfPermission(this,
-			android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this, Array(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE), FILE_PERMISSION)
-			return false
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+			if (ContextCompat.checkSelfPermission(this,
+				android.Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+				ActivityCompat.requestPermissions(this, Array(
+					android.Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+					android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+					android.Manifest.permission.READ_EXTERNAL_STORAGE), FILE_PERMISSION)
+				return false
+			}
+		} else {
+			if (ContextCompat.checkSelfPermission(this,
+				android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+				ActivityCompat.requestPermissions(this, Array(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE), FILE_PERMISSION)
+				return false
+			}
 		}
+
 		return true
 	}
 

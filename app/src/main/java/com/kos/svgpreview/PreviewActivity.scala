@@ -160,6 +160,7 @@ class PreviewActivity extends TActivity with IBusCommand with OnClickListener {
 		}
 	}
 
+	//noinspection ScalaDeprecation
 	override def openFromCommand(fileName: String, command: Int, addBack: Boolean): Unit = {
 		if (adapter != null && fileName != null) {
 			command match {

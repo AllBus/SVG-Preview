@@ -15,6 +15,7 @@ class AboutActivity extends TActivity with View.OnClickListener {
 	lazy val tabs = find[TabLayoutWithListener](R.id.tabs)
 
 
+	//noinspection ScalaDeprecation
 	override protected def onCreate(savedInstanceState: Bundle) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_about)

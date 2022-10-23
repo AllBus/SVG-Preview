@@ -1,7 +1,8 @@
 package com.kos.svgpreview.fragments
 
-import java.io._
+import android.R
 
+import java.io._
 import android.content.ContentResolver.MimeTypeInfo
 import android.content.{Context, Intent}
 import android.graphics.{BitmapFactory, Color}
@@ -361,6 +362,7 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 		webSettings.setBuiltInZoomControls(true)
 		webSettings.setDisplayZoomControls(false)
 		webSettings.setSupportZoom(true)
+		webSettings.setAllowFileAccess(true)
 
 		//		webSettings.setAllowContentAccess(true)
 		webSettings.setDefaultTextEncodingName("utf-8")
@@ -489,7 +491,8 @@ class PreviewPageFragment extends SFragment with OnClickListener {
 			textXml.setText("")
 		} catch {
 			case x: OutOfMemoryError ⇒
-			case _: Throwable ⇒
+			case x: Throwable ⇒
+				x.printStackTrace()
 		}
 
 
